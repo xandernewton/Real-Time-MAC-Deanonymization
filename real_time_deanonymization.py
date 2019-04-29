@@ -12,33 +12,24 @@ def load_db(n,database):
 
 
     for x in mongo_cursor.limit(n):
-        #print(x)
         yield x
 
 
 def get_frames(n,database="mac_research",testing=False):
-
     deanonymization = Deanonymize()
     for x in load_db(n,database):
         deanonymization.deanonymize(x)
 
+    for x in deanonymization._clusters.values():
+        print(x)
+        print(len(x))
 
-    #number_of_clusters.append(len(deanonymization._clusters))
-    #number_of_macs.append(len(deanonymization._mac_addresses))
-    #print("Number of macs {} N:{} number of clusters {}".format(len(deanonymization._mac_addresses),n,len(deanonymization._clusters)))
-    #print(number_of_macs)
-    #print(deanonymization.random_mac_counter)
-    #for x in deanonymization._clusters.values():
-    #    print(x)
-    #    print(len(x))
-
-    #print (deanonymization.random_mac_counter)
     return deanonymization
 
 
 
 class Cluster:
-
+    
     def __str__(self):
 
         return("Cluster ID: " + str(self._cluster_id)  +", Macs in cluster:"
@@ -67,6 +58,8 @@ class Cluster:
 
 
     def add_frame(self,frame):
+
+
         self._matched_frames.append(frame)
         if frame['ssid'] and frame['ssid'] not in self._ssid_list:
             self._ssid_list.append(frame['ssid'])
@@ -159,28 +152,11 @@ class Deanonymize:
         ie_check = self.compare_information_elements(frame,cluster)
         ssid_check = self.compare_ssid(frame,cluster)
 
-        #print("IE pass {}\n Seq Pass {}\n ssid Pass {}\n".format(ie_check,seq_number_check,ssid_check) + frame['mac_address'] + " " + cluster.__str__())
 
         if ie_check and seq_number_check:
               self.ie_no +=1
               self.seq_no +=1
               return True
-
-        # if ie_check and seq_number_check and ssid_check:
-        #     self.ie_no +=1
-        #     self.seq_no +=1
-        #     self.ssid_no +=1
-        #     return True
-
-
-        # if ie_check:
-        #       self.ie_no +=1
-        #       return True
-        #
-        # elif seq_number_check:
-        #       self.seq_no +=1
-        #       return True
-
 
         elif ssid_check:
              self.ssid_no +=1
@@ -205,7 +181,7 @@ class Deanonymize:
     def compare_ssid(self,frame, cluster):
 
         '''Check how frequently the SSID has occured
-        If the SSID has appeared more than 10 times, reject as it maybe a popular SSID'''
+        If the SSID has appeared more than 100 times, reject as it maybe a popular SSID'''
 
 
         if frame['ssid'] in self._ssid_dict:
@@ -264,20 +240,5 @@ class Deanonymize:
 
 if __name__ == "__main__":
 
-    #a = Deanonymize()
-    #a.get_oui_list()
-    #ap = argparse.ArgumentParser()
-    #ap.add_argument("-n", required=True,
-     #               help="number of packets")
-    #args = vars(ap.parse_args())
-
-    #get_frames(int(args['n']))
-     #number_of_clusters = []
-     #number_of_macs = []
-     #number_of_packets = [1, 5, 10, 50, 100, 250, 500, 1000, 5000, 10000, 20000, 30000, 40000, 50000, 60000
-      #   , 70000, 80000, 90000, 100000]
-
-     #for x in number_of_packets:
-      #   get_frames(x)
     get_frames(100,database='politics_accuracy')
-    #get_frames(100)
+    

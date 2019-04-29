@@ -56,8 +56,6 @@ def run(n,database = 'mac_research_accuracy',old='mac_research',no_of_mac=5,all=
             if number_of_macs_to_change == 5:
                 change_mac = True
 
-
-    #print("Number of MACs changed: {}: List of ids: {}".format(len(changed_probe_requests),changed_probe_requests))
     pickle.dump([changed_probe_requests,clusters], open("randomised_probe_requests_{}.dat".format(n), "wb"))
 
 # credit for function https://gist.github.com/pklaus/9638536
@@ -78,9 +76,6 @@ def generate_random_mac(generated_mac_addresses):
     return random_mac
 
 
-
-
-
 def check_if_random_mac(mac_address):
         """id
 
@@ -88,9 +83,6 @@ def check_if_random_mac(mac_address):
         :returns:
             Boolean: True if random MAC and False is not a random mac address
         """
-
-        #if mac_address[:8].upper() in self._oui_list:
-         #   pass
 
         first_byte = mac_address[0:2]
         first_byte = int(first_byte, 16)

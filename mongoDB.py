@@ -85,10 +85,8 @@ def add_to_db(database_info):
     db = MongoHandler(database_info['collection'])
     pcap = load_pcap(database_info['pcap_location'])
     number_of_packets = 0
-    #print("Number of packets is {}".format(number_of_packets))
     for x in pcap:
         number_of_packets +=1
-        #print("Packet Number: {}".format(number_of_packets))
         try:
             db._collection.insert_one(parse_packet_with_fingerprint(x))
         except:
@@ -126,14 +124,5 @@ if __name__ == "__main__":
     database_info = {'pcap_location': pcap_location,
                      'collection' : collection}
 
-    #
-    # for inx,file in enumerate(os.listdir('datasets/Politics1')):
-    #     pcap_location = "datasets/Politics1/" + file
-    #     collection = 'politics'
-    #
-    #     database_info = {'pcap_location' : pcap_location ,
-    #                     'collection' : collection}
-    #     print("inx {}".format(inx))
-    #     add_to_db(database_info)
 
     add_to_db(database_info)

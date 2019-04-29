@@ -25,11 +25,9 @@ def get_frames(n,database="mac_research",testing=False):
         if not check_if_random_mac(x['mac_address']):
             deanonymization.add_to_recents(cluster)
 
-    #for x in deanonymization._clusters.values():
-    #    print(x)
-    #    print(len(x))
-
-    #print (deanonymization.random_mac_counter)
+    for x in deanonymization._clusters.values():
+        print(x)
+        print(len(x))
     return deanonymization
 
 
@@ -139,10 +137,6 @@ class Deanonymize:
 
         mac_address  = frame['mac_address']
         is_random_mac = check_if_random_mac(mac_address)
-
-        #if frame['mac_address'] == 'f8:1e:df:16:09:93':
-         #   print('')
-
 
         if frame['ssid']:
             if frame['ssid'] in self._ssid_dict:
@@ -293,7 +287,7 @@ class Deanonymize:
 
         time = float(frame['timestamp'])
         cluster_differences = []
-        cluster_seq_differences = []
+
 
         for cluster in clusters:
             distance = abs(time - float(cluster._max_time))

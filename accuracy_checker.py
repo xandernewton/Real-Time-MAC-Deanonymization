@@ -23,7 +23,6 @@ def run(n, probe_requests=None, database='mac_research_accuracy',delete=False):
         randomised_probe_requests = probe_requests
 
     same_cluster_matches = []
-    #sum_of_macs = sum([len(list(combinations(x,2))) for x in before_clusters.values()])
     sum_of_macs = sum([(x * (x-1)) /2 for x in before_clusters.values()])
 
     for cluster in after_clusters.values():
@@ -35,14 +34,10 @@ def run(n, probe_requests=None, database='mac_research_accuracy',delete=False):
             else:
                 same_cluster_matches.append(pair)
 
-    #print("Number of randomised MAC {}".format(len(randomised_probe_requests)))
-
-
     for x, y in same_cluster_matches:
 
         accuracy_obj.calculate_classification(x, y)
 
-    #total = len(list(combinations(randomised_probe_requests, 2)))
     total = (randomised_probe_requests* (randomised_probe_requests-1))/2
     P = len(same_cluster_matches)
     p_dash = sum_of_macs
